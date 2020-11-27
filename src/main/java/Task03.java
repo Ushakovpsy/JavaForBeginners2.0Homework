@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.Scanner;
+import java.io.IOException;
 
 /**
  * Задание №3
@@ -13,7 +14,7 @@ import java.util.Scanner;
 
 public class Task03 {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
         System.out.println("Введите \"1\" чтобы запустить выполнение калькулятора");
         System.out.println("Введите \"2\" чтобы осуществить поиск максимального слова в массиве");
