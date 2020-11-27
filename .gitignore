@@ -1,2 +1,5 @@
 .idea
 *.iml
+!/JavaForBeginners2.0Homework.iml
+/target/
+/src/
