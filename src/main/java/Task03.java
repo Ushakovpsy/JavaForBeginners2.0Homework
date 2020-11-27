@@ -1,46 +1,127 @@
-import java.io.IOException;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.Scanner;
 
 /**
- * Начинаем писать калькулятор:
- * 1.Реализовать сложение дробных чисел, которые пользователь вводит в консоль. Использовать комментарии и JavaDoc
- * при описании метода. Использовать форматирование при выводе результата в консоль. Полученный результат округлять
- * до 4-х знаков после запятой.
- * 2. Запушить проект в свой репозиторий на GitHub
- * 3. Добавить возможность выбора другой операции (сложение, вычитание, деление, умножение)
+ * Задание №3
+ * 1. Реализовать базовые операции калькулятора (+,-,/,*) для предыдущего задания
+ * 2. Поиск максимального элемента в массиве. Для начала задать массив слов.Размерность массива произвольна, задается в консоли. После чего в консоли вводятся слова в количестве равном заданной длине массива. В полученном массиве необходимо найти самое длинное слово. Результат вывести на консоль
+ * 3. Программа должна выполнять одно из заданий на выбор. Если в консоли ввести 1 - запуститься выполнение калькулятора, если 2 - поиск максимального слова в массиве.
  *
  * @author Oleg Ushakov
  */
 
 public class Task03 {
-    public static void main(String[] args) throws IOException {
-        System.out.println("Введите первое число");
-        Scanner scanner1 = new Scanner(System.in);
 
-        // для работы с дробными числами использеум тип данных - double
+    public static void main(String[] args) {
 
-        double value1 = scanner1.nextDouble();
-        System.out.println("Введите второе число");
-        double value2 = scanner1.nextDouble();
-        System.out.println("Введите требуемую операцию:");
-        System.out.println("\"+\" - сложение,  \"-\" - вычитание");
-        System.out.println("\"*\" - умножение, \"/\" - деление");
+        System.out.println("Введите \"1\" чтобы запустить выполнение калькулятора");
+        System.out.println("Введите \"2\" чтобы осуществить поиск максимального слова в массиве");
 
-        Scanner scanner2 = new Scanner(System.in);
-        String action = scanner2.nextLine();
+        Scanner scaner1 = new Scanner(System.in);
+        String action = scaner1.nextLine();
+        if (action.equals("1")) {
+            double num1 = getNumber();
+            double num2 = getNumber();
+            char operation = getOperation();
+            double result = calc(num1, num2, operation);
+            System.out.println("Результат:" + result);
+        } else if (action.equals("2")) {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+            System.out.println("Определите размер массива");
+            // объявляем массив
+            int a = Integer.parseInt(reader.readLine());
+            String[] array = new String[a];
 
-        if (action.equals("+")) {
-            double result = value1 + value2;
-            System.out.printf("Результат сложения = " + "%.4f", result);
-        } else if (action.equals("-")) {
-            double result = value1 - value2;
-            System.out.printf("Результат вычитания = " + "%.4f", result);
-        } else if (action.equals("*")) {
-            double result = value1 * value2;
-            System.out.printf("Результат умножения чисел = " + "%.4f", result);
-        } else if (action.equals("/")) {
-            double result = value1 / value2;
-            System.out.printf("Результат деления чисел = " + "%.4f", result);
+            Scanner sc = new Scanner(System.in);
+            System.out.println("Введите слова одной строкой через пробел");
+            String input = sc.nextLine();
+
+            array = input.split(" ");
+            String maxLen = array[0];
+
+            for (String e : array) {
+                if (e.length() > maxLen.length()) {
+                    maxLen = e;
+                }
+            }
+
+            System.out.print(maxLen);
+        } else {
+            System.out.println("Ошибка при вводе. Повторите ввод");
+        }
+    }
+
+    public static double getNumber() {
+        System.out.println("Введите число");
+        Scanner scaner1 = new Scanner(System.in);
+        if (scaner1.hasNextDouble()) {
+            return scaner1.nextDouble();
+        } else {
+            System.out.println("Ошибка при вводе. Повторите ввод");
+            return getNumber();
+        }
+    }
+
+    public static char getOperation() {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Выберите номер операции:\n1 - прибавить\n2 - отнять\n3 - умножить\n4 - разделить");
+        int operationNumber = 0;
+        if (sc.hasNextInt()) {
+            operationNumber = sc.nextInt();
+        } else {
+            System.out.println("Вы ввели не число! Повторите ввод!");
+            return getOperation();
+        }
+
+        switch (operationNumber) {
+            case 1:
+                return '+';
+            case 2:
+                return '-';
+            case 3:
+                return '*';
+            case 4:
+                return '/';
+            default:
+                System.out.println("Неправильная операция! Повторите ввод!");
+                return getOperation();
+        }
+    }
+
+    public static double add(double num1, double num2) {
+        return num1 + num2;
+    }
+
+    public static double sub(double num1, double num2) {
+        return num1 - num2;
+    }
+
+    public static double mul(double num1, double num2) {
+        return num1 * num2;
+    }
+
+    public static double div(double num1, double num2) {
+        if (num2 != 0.0) {
+            return num1 / num2;
+        } else {
+            System.out.println("На 0 делить нельзя!");
+            return Double.NaN;
+        }
+    }
+
+    public static double calc(double num1, double num2, char operation) {
+        switch (operation) {
+            case '+':
+                return add(num1, num2);
+            case '-':
+                return sub(num1, num2);
+            case '*':
+                return mul(num1, num2);
+            case '/':
+                return div(num1, num2);
+            default:
+                return Double.NaN;
         }
     }
 }
